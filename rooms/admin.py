@@ -17,7 +17,70 @@ class RoomAdmin(admin.ModelAdmin):
 
     """ Room Admin Definition """
 
-    pass
+    fieldsets = (
+        (
+            "Basic Info",
+            {"fields": ("name", "description", "country", "address", "price")},
+        ),
+        (
+            "Times",
+            {"fields": ("check_in", "check_out")},
+        ),
+        (
+            "Space",
+            {
+                "fields": (
+                    "beds",
+                    "bathrooms",
+                    "baths",
+                    "guests",
+                )
+            },
+        ),
+        (
+            "More About the Spac",
+            {"fields": ("amenities", "facilities", "houserules")},
+        ),
+        (
+            "Last Details",
+            {"fields": ("host",)},
+        ),
+    )
+
+    list_display = (
+        "name",
+        "description",
+        "country",
+        "city",
+        "price",
+        "beds",
+        "bathrooms",
+        "baths",
+        "guests",
+        "check_in",
+        "check_out",
+        "instant_book",
+        "count_amenities",
+    )
+
+    ordering = ("-name", "country")
+
+    list_filter = (
+        "instant_book",
+        "city",
+        "country",
+    )
+    search_fields = ("=city", "host__username")
+    filter_horizontal = (
+        "amenities",
+        "facilities",
+        "houserules",
+    )
+
+    def count_amenities(self, obj):
+        return obj.amenities.count()
+
+    count_amenities.short_description = "Hello Sexy"
 
 
 @admin.register(models.Amenity)

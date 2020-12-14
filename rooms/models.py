@@ -31,7 +31,7 @@ class Amenity(AbstractItem):
     """ Amenity Model Definition """
 
     class Meta:
-        verbose_name_plural = "Amenties"
+        verbose_name_plural = "Amenities"
 
 
 class Facility(AbstractItem):
@@ -72,17 +72,20 @@ class Room(core_models.TimeStampedModel):
     city = models.CharField(max_length=80)
     price = models.IntegerField()
     address = models.CharField(max_length=140)
-    bads = models.IntegerField()
+    beds = models.IntegerField()
     bathrooms = models.IntegerField()
     baths = models.IntegerField()
     guests = models.IntegerField()
     check_in = models.TimeField()
     check_out = models.TimeField()
-
     instant_book = models.BooleanField(default=False)
-    host = models.ForeignKey("users.User", on_delete=models.CASCADE)
+
+    host = models.ForeignKey(
+        "users.User", related_name="rooms", on_delete=models.CASCADE
+    )
     room_type = models.ForeignKey("RoomType", on_delete=models.SET_NULL, null=True)
-    amenties = models.ManyToManyField("Amenity", blank=True)
+
+    amenities = models.ManyToManyField("Amenity", blank=True)
     facilities = models.ManyToManyField("Facility", blank=True)
     houserules = models.ManyToManyField("HouseRule", blank=True)
 
