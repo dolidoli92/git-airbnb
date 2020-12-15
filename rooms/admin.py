@@ -4,12 +4,15 @@ from . import models
 # Register your models here.
 
 
-@admin.register(models.RoomType)
+@admin.register(models.RoomType, models.Facility, models.Amenity, models.HouseRule)
 class ItemAdmin(admin.ModelAdmin):
 
     """ Item Admin Definition """
 
-    pass
+    list_display = ("name", "used_by")
+
+    def used_by(self, obj):
+        return obj.rooms.count()
 
 
 @admin.register(models.Room)
@@ -61,6 +64,8 @@ class RoomAdmin(admin.ModelAdmin):
         "check_out",
         "instant_book",
         "count_amenities",
+        "count_photos",
+        "total_rating",
     )
 
     ordering = ("-name", "country")
@@ -80,36 +85,15 @@ class RoomAdmin(admin.ModelAdmin):
     def count_amenities(self, obj):
         return obj.amenities.count()
 
-    count_amenities.short_description = "Hello Sexy"
+    # count_amenities.short_description = "Hello Sexy"
 
-
-@admin.register(models.Amenity)
-class RoomAdmin(admin.ModelAdmin):
-
-    """ Amenity Admin Definition """
-
-    pass
-
-
-@admin.register(models.Facility)
-class RoomAdmin(admin.ModelAdmin):
-
-    """ Facility Admin Definition """
-
-    pass
-
-
-@admin.register(models.HouseRule)
-class RoomAdmin(admin.ModelAdmin):
-
-    """ HouseRule Admin Definition """
-
-    pass
+    def count_photos(self, obj):
+        return obj.photos.count()
 
 
 @admin.register(models.Photo)
-class RoomAdmin(admin.ModelAdmin):
+class PhotoAdmin(admin.ModelAdmin):
 
-    """ Photo Admin Definition """
+    """ """
 
     pass

@@ -9,4 +9,6 @@ class ReviewAdmin(admin.ModelAdmin):
 
     """ Review Admin Definition """
 
-    pass
+    # '__str__' :
+    # if anaother function exists in models.py, lose it when you write it
+    list_display = ("__str__", "room", "rating_average")
