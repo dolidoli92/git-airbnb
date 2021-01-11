@@ -24,20 +24,21 @@ class LoginForm(forms.Form):
             self.add_error("email", forms.ValidationError("User does not exist."))
 
 
-class SignupForm(forms.Form):
-    # basic information
-    first_name = forms.CharField(max_length=30)
-    last_name = forms.CharField(max_length=30)
+class SignupForm(forms.ModelForm):
+    class Meta:
+        model = models.User
+        fields = ("first_name", "last_name")
+
     email = forms.EmailField()
-    passwd1 = forms.CharField(widget=forms.PasswordInput)
+    passwd1 = forms.CharField(widget=forms.PasswordInput, label="Password")
     passwd2 = forms.CharField(widget=forms.PasswordInput, label="Confirmed Password")
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
-
         try:
             models.User.objects.get(email=email)
-            raise forms.ValidationError("User already exists with email")
+            print("working?")
+            raise forms.ValidationError("User already exists with that email")
         except models.User.DoesNotExist:
             return email
 
@@ -50,13 +51,12 @@ class SignupForm(forms.Form):
         else:
             return passwd1
 
-    def save(self):
-        first_name = self.cleaned_data.get("first_name")
-        last_name = self.cleaned_data.get("last_name")
+    def save(self, *args, **kwargs):
+        user = super().save(commit=False)
         email = self.cleaned_data.get("email")
         passwd1 = self.cleaned_data.get("passwd1")
-        user = models.User.objects.create_user(email, email, passwd1)
+        user.email = email
+        user.username = email
+        user.set_password(passwd1)
 
-        user.first_name = first_name
-        user.last_name = last_name
         user.save()

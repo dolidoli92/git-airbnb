@@ -1,0 +1,22 @@
+{
+  "name": "airbnb-clone",
+  "version": "1.0.0",
+  "description": "Cloning Airbnb",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dolidoli92/git-airbnb.git"
+  },
+  "scripts": {
+    "css": "gulp"
+  },
+  "homepage": "https://github.com/dolidoli92/git-airbnb#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.1.0",
+    "gulp": "^4.0.2",
+    "gulp-csso": "^4.0.1",
+    "gulp-postcss": "^9.0.0",
+    "gulp-sass": "^4.1.0",
+    "node-sass": "^5.0.0",
+    "tailwindcss": "^2.0.2"
+  }
+}
